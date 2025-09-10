@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event-Roadmap</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛣️</text></svg>">
+
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* General Reset */
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Orbitron', sans-serif;
+  background:#000;
+  color:#fff;
+  overflow-x:hidden;
+  min-height:100vh;
+  position:relative;
+}
+
+/* Navbar */
+.navbar {
+  position: fixed; top:20px; left:50%; transform:translateX(-50%);
+  width:90%; background: rgba(0,0,0,0.85); border-radius:15px;
+  box-shadow:0 0 15px rgba(0,255,255,0.3); z-index:1000;
+}
+.navbar-items {
+  display:flex; justify-content:center; flex-wrap:wrap; gap:15px; padding:10px 15px;
+}
+.navbar-items a {
+  display:flex; align-items:center; gap:5px;
+  color:#aaa; text-decoration:none; font-size:0.9rem;
+  padding:8px 12px; border-radius:8px; transition:all 0.3s;
+}
+.navbar-items a i { font-size:1rem; }
+.navbar-items a:hover { background:linear-gradient(90deg,#00f0ff,#0ff); color:#000; box-shadow:0 0 12px #0ff; transform:translateY(-2px); }
+.navbar-items a.active { background:#0ff; color:#000; font-weight:700; box-shadow:0 0 15px #0ff; }
+
+/* Hamburger Menu */
+.menu-toggle {
+  display:none;
+  position:absolute; top:10px; right:20px;
+  cursor:pointer; z-index:1100;
+}
+.menu-toggle span {
+  display:block; width:25px; height:3px; background:#0ff; margin:5px 0; transition:0.3s;
+}
+
+/* Roadmap Header */
+h1 {
+  text-align: center;
+  font-size: clamp(2rem, 4vw, 3rem);
+  padding: 90px 10px 30px; /* shifted down due to navbar */
+  margin: 0 0 40px;
+  color: #ffcc00;
+  text-shadow: 0 0 8px #ffcc00, 0 0 16px #ff9900;
+  letter-spacing: 2px;
+  position:relative;
+  z-index:5;
+}
+
+/* Roadmap Container */
+.roadmap {
+  width: 90%;
+  max-width: 1100px;
+  margin: auto;
+  position: relative;
+  z-index:2;
+}
+
+/* Roadmap Items */
+.roadmap-item {
+  display: flex;
+  align-items: center;
+  margin: 50px 0;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+.roadmap-item:hover { transform: translateY(-5px); }
+.roadmap-item:nth-child(even) { flex-direction: row-reverse; }
+
+/* Number Circle */
+.number {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffcc00, #ff9900);
+  border: 3px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 0 25px;
+  color: #000;
+  box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffa500;
+  z-index:2;
+}
+
+/* Connector Line */
+.roadmap-item::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  background: #ffcc00;
+  top: 50%;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index:1;
+  opacity:0.7;
+}
+.roadmap-item:last-child::after { display: none; }
+
+/* Content Box */
+.content {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  padding: 30px 35px;
+  border-radius: 20px;
+  width: 45%;
+  min-width: 250px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  position: relative;
+  z-index:2;
+  border-left: 3px solid #ffcc00;
+  border-right: 3px solid #ffcc00;
+  transition: background 0.3s ease;
+}
+.content:hover { background: rgba(255,255,255,0.1); }
+.content h3 { margin-top:0; color:#ffcc00; font-size:25px; }
+.content p { margin:6px 0; font-size:20px; line-height:1.6; }
+
+/* Binary Canvas */
+#binaryBG {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+  pointer-events:none;
+}
+
+/* Responsive */
+@media(max-width:768px){
+  .navbar { width:95%; }
+  .navbar-items { display:none; flex-direction:column; gap:10px; padding:10px; background:rgba(0,0,0,0.9); border-radius:10px; position:absolute; top:50px; left:0; width:100%; }
+  .navbar-items a { font-size:0.85rem; padding:8px; }
+  .menu-toggle { display:block; }
+  .roadmap-item { flex-direction: column !important; margin: 40px 0; }
+  .roadmap-item:nth-child(even) { flex-direction: column !important; }
+  .content { width: 90%; margin: 20px 0; border-left: none; border-right: none; }
+  h1 { font-size:2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+  <div class="menu-toggle" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+  <div class="navbar-items">
+    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+    <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+    <a href="event.html" ><i class="fas fa-calendar-alt"></i>Event</a>
+    <a href="timeline.html" class="active"><i class="fas fa-stream"></i> Timeline</a>
+    <a href="expo.html"><i class="fas fa-laptop-code"></i>Project Expo</a>
+    <a href="prizes.html"><i class="fas fa-trophy"></i> Prizes</a>
+    <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+  </div>
+</div>
+
+<section id="timeline">
+<h1 style=font-family:firacode>Event Roadmap</h1>
+
+<div class="roadmap">
+  <div class="roadmap-item">
+    <div class="number">1</div>
+    <div class="content">
+      <h3>10:00 AM</h3>
+      <p style=font-family:firacode><strong>🎉 Inauguration of Zenofest</strong></p>
+      <p style=font-family:firacode>📍 Admin Block Seminar Hall</p>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="number">2</div>
+    <div class="content">
+      <h3>10:30 AM</h3>
+      <p style=font-family:firacode><strong>💻 Project Expo</strong> 📍 I Floor - IT Lab 1</p>
+      <p style=font-family:firacode><strong>🖥️ Code Relay</strong> 📍 I Floor - IT Lab 2</p>
+      <p style=font-family:firacode><strong>📜 Poster Creation</strong> 📍 III yr IT Class</p>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="number">3</div>
+    <div class="content">
+      <h3>01:00 PM</h3>
+      <p style=font-family:firacode><strong>🍴 Lunch Break</strong></p>
+      <p style=font-family:firacode>📍 Boys Hostel - II</p>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="number">4</div>
+    <div class="content">
+      <h3>02:00 PM</h3>
+      <p style=font-family:firacode><strong>🎭 Non-Technical Events</strong></p>
+      <p style=font-family:firacode><strong>🔗 Connection</strong> 📍 II Floor - IT Block</p>
+      <p style=font-family:firacode><strong>🤹 Word Duel</strong> 📍 II Floor - IT Block</p>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="number">5</div>
+    <div class="content">
+      <h3>03:30 PM</h3>
+      <p style=font-family:firacode><strong>🏆 Prize Distribution & Closing Ceremony</strong></p>
+      
+    </div>
+  </div>
+</div>
+
+<canvas id="binaryBG"></canvas>
+</section>
+
+<script>
+  // Navbar toggle
+  function toggleMenu(){
+    const menu = document.querySelector('.navbar-items');
+    menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
+  }
+
+  // Binary Rain Background
+  const canvas = document.getElementById('binaryBG');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const cols = Math.floor(canvas.width / 20) + 1;
+  const ypos = Array(cols).fill(0);
+  function binaryRain() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = Math.random() > 0.5 ? "#00f0ff" : "#a020f0";
+    ctx.font = "18px Orbitron";
+    ypos.forEach((y, ind) => {
+      const text = Math.random() > 0.5 ? "0" : "1";
+      const x = ind * 20;
+      ctx.fillText(text, x, y);
+      if (y > canvas.height + Math.random() * 10000) ypos[ind] = 0;
+      else ypos[ind] = y + 20;
+    });
+  }
+  setInterval(binaryRain, 60);
+  window.addEventListener('resize', ()=> {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Expo - Zenofest 2K25</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family:'Orbitron', sans-serif;
+      background:#000;
+      color:#fff;
+      min-height:100vh;
+      overflow-x:hidden;
+      line-height:1.6;
+      position:relative;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed; top:20px; left:50%; transform:translateX(-50%);
+      width:90%; background: rgba(0,0,0,0.85); border-radius:15px;
+      box-shadow:0 0 15px rgba(0,255,255,0.3); z-index:1000;
+    }
+    .navbar-items {
+      display:flex; justify-content:center; flex-wrap:wrap; gap:15px; padding:10px 15px;
+      transition:max-height 0.4s ease;
+    }
+    .navbar-items a {
+      display:flex; align-items:center; gap:5px;
+      color:#aaa; text-decoration:none; font-size:0.9rem;
+      padding:8px 12px; border-radius:8px; transition:all 0.3s;
+    }
+    .navbar-items a i { font-size:1rem; }
+    .navbar-items a:hover {
+      background:linear-gradient(90deg,#00f0ff,#0ff);
+      color:#000; box-shadow:0 0 12px #0ff; transform:translateY(-2px);
+    }
+    .navbar-items a.active {
+      background:#0ff; color:#000; font-weight:700;
+      box-shadow:0 0 15px #0ff;
+    }
+
+    /* Hamburger Menu */
+    .menu-toggle {
+      display:none;
+      position:absolute; top:10px; right:20px;
+      cursor:pointer; z-index:1100;
+    }
+    .menu-toggle span {
+      display:block; width:25px; height:3px; background:#0ff; margin:5px 0; transition:0.3s;
+    }
+
+    /* Sections */
+    section { position:relative; z-index:2; }
+
+    /* Poster Section */
+/* Poster Section */
+#poster-section {
+  margin-top: 120px;                    /* push it below navbar */
+  padding: 60px 5% 40px;                /* adjust padding */
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 20px;
+
+  /* Blur Background Effect */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+}
+
+#poster-section h2 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: 20px;
+  color: gold;
+}
+/* Expo Section */
+#expo-section {
+  padding: 100px 5% 60px;
+  text-align: center;
+  font-family: "Times New Roman", Times, serif; /* Apply to section by default */
+}
+#expo-section h2 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: 50px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  background: linear-gradient(90deg, #00f0ff, #a020f0, #ff007f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: "Times New Roman", Times, serif; /* Changed */
+}
+.expo-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  color: #00f0ff;
+  font-family: "Times New Roman", Times, serif; /* Changed */
+}
+.expo-card p {
+  font-size: 20px;
+  line-height: 1.5;
+  color: #ddd;
+  font-family: "Firacode"; /* Changed */
+}
+
+
+   
+    .expo-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    .expo-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      padding: 25px 20px;
+      border-radius: 18px;
+      text-align: center;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    
+    .expo-card:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.3),
+                  0 0 30px rgba(160, 32, 240, 0.2);
+    }
+
+    /* Binary Canvas */
+    #binaryBG {
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      z-index:-1;
+      pointer-events:none;
+    }
+
+    /* Responsive */
+    @media(max-width:1024px){
+      .expo-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media(max-width:768px){
+      .navbar { width:95%; }
+      .navbar-items {
+        display:none; flex-direction:column; gap:10px;
+        padding:10px; background:rgba(0,0,0,0.95);
+        border-radius:10px; position:absolute; top:50px; left:0; width:100%;
+      }
+      .navbar-items a { font-size:1rem; padding:10px; text-align:center; }
+      .menu-toggle { display:block; }
+      .expo-grid { grid-template-columns: repeat(2, 1fr); }
+      #poster-section h2, #expo-section h2 { font-size:2rem; }
+    }
+    @media(max-width:480px){
+      #poster-section, #expo-section { padding:100px 3% 40px; }
+      .expo-grid { grid-template-columns: 1fr; }
+      .expo-card h3 { font-size:1.2rem; }
+      .expo-card p { font-size:0.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+  <div class="menu-toggle" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <div class="navbar-items">
+    <a href="index.html"><i class="fas fa-home"></i>Home</a>
+    <a href="about.html"><i class="fas fa-info-circle"></i>About</a>
+    <a href="event.html"><i class="fas fa-calendar-alt"></i>Event</a>
+    <a href="timeline.html"><i class="fas fa-stream"></i>Timeline</a>
+    <a href="expo.html" class="active"><i class="fas fa-laptop-code"></i>Project Expo</a>
+    <a href="prizes.html"><i class="fas fa-trophy"></i>Prizes</a>
+    <a href="contact.html"><i class="fas fa-envelope"></i>Contact</a>
+  </div>
+</div>
+
+<!-- Poster Creation Section -->
+<section id="poster-section">
+  <h2>Project Expo</h2>
+  <p style="margin:10px 0; color:#ffcc00;">
+    <strong> Faculty Coordinator:</strong> <span style="color:#ffffff;">Dr. R. Ramani , HOD/IT</span><br>
+    <strong> Industralists :</strong><br> <span style="color:#ffffff;">Mr.DSM Ranjith Kumar , Founder & CEO of Bevywise Networks LLP</span><br>
+    <strong> </strong> <span style="color:#ffffff;">Ms.Kavitha Ranjith, Founder of Dhatchan Academy</span>
+
+  </p>
+  <p style="margin:10px 0; color:#ffcc00;">
+    <strong> Student Coordinators:</strong><br>
+    <span style="color:#ffffff;">A. Raveena</span><br>
+    <span style="color:#ffffff;">A. Vignesh Saurav</span>
+  </p>
+  <h3 style="color:gold; margin-top:15px;">Main Rules & Regulations:</h3>
+  <ul style="text-align:left; margin:0 auto; display:inline-block; padding-left:20px; line-height:1.6;">
+    <li style="color:white;">Each team should present their project within 4 minutes.</li>
+    <li style="color:white;">Better to show your prototype or model.</li>
+    <li style="color:white;">The External may ask questions for 2-3 minutes after your presentation.</li>
+    <li style="color:white;">Evaluation is based upon your innovation, clarity and teamwork.</li>
+  </ul>
+</section>
+
+<!-- Expo Section -->
+<section id="expo-section">
+  <h2>Expo Themes</h2>
+  <div class="expo-grid">
+    <div class="expo-card"><h3>IoT</h3><p>Smart home devices, sensor networks, automation systems, wearables.</p></div>
+    <div class="expo-card"><h3>Mobile Apps</h3><p>Android & iOS apps, AR/VR experiences, games, and social platforms.</p></div>
+    <div class="expo-card"><h3>Web Development</h3><p>Modern websites, PWAs, responsive designs, and interactive UIs.</p></div>
+    <div class="expo-card"><h3>AI/ML</h3><p>Chatbots, predictive analytics, machine learning, and AI solutions.</p></div>
+    <div class="expo-card"><h3>Open Innovation</h3><p>Futuristic, creative, and out-of-the-box problem solving projects.</p></div>
+  </div>
+</section>
+
+<!-- Binary Rain Background -->
+<canvas id="binaryBG"></canvas>
+
+<script>
+  // Hamburger Menu Toggle
+  function toggleMenu(){
+    const menu = document.querySelector('.navbar-items');
+    menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
+  }
+
+  // Binary Rain Background
+  const canvas = document.getElementById('binaryBG');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const cols = Math.floor(canvas.width / 20) + 1;
+  const ypos = Array(cols).fill(0);
+
+  function binaryRain() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = Math.random() > 0.5 ? "#00f0ff" : "#a020f0";
+    ctx.font = "18px Orbitron";
+
+    ypos.forEach((y, ind) => {
+      const text = Math.random() > 0.5 ? "0" : "1";
+      const x = ind * 20;
+      ctx.fillText(text, x, y);
+      if (y > canvas.height + Math.random() * 10000) ypos[ind] = 0;
+      else ypos[ind] = y + 20;
+    });
+  }
+  setInterval(binaryRain, 60);
+
+  window.addEventListener('resize', ()=> {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zenofest 2K25</title>
+  <link rel="icon" href="logo-fotor-ai-art-effects-20250909193420.jpg">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family:'Orbitron',sans-serif;
+      background:#000;color:#fff;
+      min-height:100vh;overflow-x:hidden;
+    }
+
+    /* Binary Background */
+    #binaryBG{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:#000}
+
+    /* Navbar */
+    .navbar{
+      position:fixed;top:20px;left:50%;transform:translateX(-50%);
+      width:90%;background:rgba(0,0,0,0.85);
+      border-radius:15px;box-shadow:0 0 15px rgba(0,255,255,0.3);
+      z-index:1000;
+    }
+    .navbar-items{
+      display:flex;justify-content:center;flex-wrap:wrap;gap:15px;padding:12px;
+    }
+    .navbar-items a{
+      display:flex;align-items:center;gap:6px;
+      color:#aaa;text-decoration:none;font-size:0.95rem;
+      padding:8px 14px;border-radius:8px;transition:all .3s;
+    }
+    .navbar-items a:hover{
+      background:linear-gradient(90deg,#00f0ff,#0ff);
+      color:#000;box-shadow:0 0 12px #0ff;transform:translateY(-2px);
+    }
+    .navbar-items a.active{
+      background:#0ff;color:#000;font-weight:700;box-shadow:0 0 15px #0ff;
+    }
+
+    /* Hamburger */
+    .menu-toggle{display:none;position:absolute;top:12px;right:20px;cursor:pointer}
+    .menu-toggle span{display:block;width:28px;height:3px;background:#0ff;margin:5px 0;transition:.3s}
+
+    /* Social Icons */
+    .social-icons{
+      position:fixed;top:50%;left:10px;transform:translateY(-50%);
+      display:flex;flex-direction:column;gap:12px;z-index:9;
+    }
+    .social-icons a{
+      font-size:1.2rem;padding:8px;border-radius:6px;
+      color:#fff;width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+      transition:transform .3s;
+    }
+    .social-icons a:hover{transform:scale(1.2)}
+    .instagram{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fd5949 45%,#d6249f 60%,#285AEB 90%);box-shadow:0 0 12px #d6249f}
+    .youtube{background:#eb0000;box-shadow:0 0 12px #eb0000}
+
+    /* Top Section */
+    .top-center{
+      position:absolute;top:120px;width:100%;text-align:center;z-index:3;padding:0 20px;
+    }
+    .box1{
+      background:rgba(0,0,0,0.6);border-radius:10px;display:inline-block;padding:20px 30px;
+    }
+    .top-center h1{
+      font-size:clamp(2rem,8vw,5rem);font-weight:900;letter-spacing:6px;
+      color:white;-webkit-text-stroke:1px #888;
+      background:radial-gradient(circle,#fff,#0ff,#000);
+      -webkit-background-clip:text;background-clip:text;
+      animation:glow 3s ease-in-out infinite;font-family:'Fira Code',monospace;
+    }
+    @keyframes glow{
+      0%,100%{text-shadow:0 0 10px #0ff,0 0 20px #0ff}
+      50%{text-shadow:0 0 20px #0ff,0 0 40px #0ff}
+    }
+    .top-center h2{font-size:1.5rem;margin-top:10px;color:#0ff;font-family:'Fira Code',monospace}
+    .top-center h3{font-size:1.1rem;margin-top:10px;font-weight:normal;color:#fff;font-family:'Fira Code',monospace}
+
+    /* Logos */
+    .company-logos{
+      display:flex;justify-content:center;align-items:center;gap:25px;margin:20px 0;flex-wrap:wrap;
+    }
+    .company-logo{max-width:120px;height:auto;transition:transform .3s}
+    .company-logo:hover{transform:scale(1.1)}
+
+    /* Bottom Timer + Register */
+    .bottom-center{
+      position:absolute;bottom:20px;width:100%;text-align:center;z-index:3;padding:0 15px;
+    }
+    .box{
+      border:2px solid #0ff;background:rgba(0,0,0,0.85);
+      border-radius:10px;display:inline-block;padding:20px 40px;max-width:95%;
+    }
+    #timer{
+      font-size:1.8rem;background:linear-gradient(90deg,rgba(255,0,204,.8),#0ff);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      font-family:'Orbitron',monospace;letter-spacing:1px;margin:10px 0;display:inline-block;
+    }
+    #timer.closed{color:red !important;text-shadow:0 0 10px red,0 0 20px red !important;animation:blink 1s infinite alternate}
+    @keyframes blink{from{opacity:1}to{opacity:0.4}}
+
+    .register-btn{
+      display:inline-flex;align-items:center;gap:10px;
+      background:linear-gradient(90deg,rgba(255,0,204,0.6),#0ff);
+      color:#000;font-size:1.1rem;font-weight:600;border:none;border-radius:50px;
+      padding:12px 26px;cursor:pointer;text-decoration:none;margin-top:15px;
+      transition:transform .3s,box-shadow .3s;
+    }
+    .register-btn:hover{transform:scale(1.05);box-shadow:0 0 20px rgba(255,0,204,0.6)}
+
+    /* Responsive */
+@media(max-width:768px){
+  .navbar{width:95%}
+  .navbar-items{display:none;flex-direction:column;gap:10px;padding:12px;background:rgba(0,0,0,0.9);border-radius:10px;position:absolute;top:50px;left:0;width:100%}
+  .navbar-items a{font-size:1rem;padding:10px}
+  .menu-toggle{display:block}
+
+  /* keep vertical social icons even in mobile */
+  .social-icons{
+    left:10px;
+    top:50%;
+    bottom:auto;
+    right:auto;
+    transform:translateY(-50%);
+    flex-direction:column;   /* vertical always */
+    gap:10px;
+  }
+  .social-icons a{width:32px;height:32px;font-size:1rem;padding:5px}
+
+  .top-center h1{font-size:2.2rem;letter-spacing:4px}
+  .top-center h2{font-size:1rem}
+  .top-center h3{font-size:0.9rem}
+  .box{padding:15px 20px}
+  #timer{font-size:1.2rem}
+  .register-btn{padding:8px 18px;font-size:0.9rem}
+  .bottom-center{position:fixed;bottom:10px}
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="menu-toggle" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+    <div class="navbar-items">
+      <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
+      <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+      <a href="event.html"><i class="fas fa-calendar-alt"></i> Event</a>
+      <a href="timeline.html"><i class="fas fa-stream"></i> Timeline</a>
+      <a href="expo.html"><i class="fas fa-laptop-code"></i> Project Expo</a>
+      <a href="prizes.html"><i class="fas fa-trophy"></i> Prizes</a>
+      <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+    </div>
+  </div>
+
+  <!-- Social -->
+  <div class="social-icons">
+    <a href="https://www.instagram.com/zenofest_2k25" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.youtube.com/embed/8lNPBFfha_4?si=EtGd0ib6TT6cS6CW" target="_blank" class="youtube"><i class="fab fa-youtube"></i></a>
+  </div>
+
+  <!-- Title -->
+  <div class="top-center">
+    <div class="box1">
+      <h1>ZENOFEST <sup style="font-size:25px;">2K25</sup></h1>
+      <h2>P.S.R. Engineering College</h2>
+      <h2>Department of Information Technology</h2>
+      <h3>Associated with</h3>
+      <div class="company-logos">
+        <img src="bevy.png" alt="Bevy Logo" class="company-logo">
+        <img src="Dhatchan.png" alt="Dhatchan Logo" class="company-logo">
+      </div>
+      <h3>A National Level Project Expo</h3>
+    </div>
+  </div>
+
+  <!-- Timer -->
+  <div class="bottom-center">
+    <div class="box">
+      <h3>Registration ends in</h3>
+      <div id="timer">00:00:00</div><br>
+      <a href="https://tinyurl.com/Zenofest" id="registerBtn" class="register-btn">Register <span>→</span></a>
+    </div>
+  </div>
+
+  <!-- Binary Background -->
+  <canvas id="binaryBG"></canvas>
+
+  <script>
+    // Menu Toggle
+    function toggleMenu(){
+      const menu=document.querySelector('.navbar-items');
+      menu.style.display=(menu.style.display==='flex')?'none':'flex';
+    }
+
+    // Countdown
+    const eventDate=new Date("2025-09-27T12:00:00").getTime();
+    function updateTimer(){
+      const now=new Date().getTime();
+      const distance=eventDate-now;
+      const timer=document.getElementById("timer");
+      if(distance<=0){
+        timer.innerHTML="CLOSED";
+        timer.classList.add("closed");
+        document.getElementById("registerBtn").style.display="none";
+        return;
+      }
+      const days=Math.floor(distance/(1000*60*60*24));
+      const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+      const mins=Math.floor((distance%(1000*60*60))/(1000*60));
+      const secs=Math.floor((distance%(1000*60))/1000);
+      timer.innerHTML=`${days<10?"0":""}${days}D : ${hours<10?"0":""}${hours}H : ${mins<10?"0":""}${mins}M : ${secs<10?"0":""}${secs}S`;
+    }
+    setInterval(updateTimer,1000);updateTimer();
+
+    // Binary Rain
+    const canvas=document.getElementById('binaryBG');
+    const ctx=canvas.getContext('2d');
+    function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+    resizeCanvas();window.addEventListener('resize',resizeCanvas);
+    const cols=Math.floor(canvas.width/20)+1;const ypos=Array(cols).fill(0);
+    function binaryRain(){
+      ctx.fillStyle="rgba(0,0,0,0.15)";ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle=Math.random()>0.5?"#00f0ff":"#a020f0";ctx.font="18px Orbitron";
+      ypos.forEach((y,ind)=>{const text=Math.random()>0.5?"0":"1";const x=ind*20;ctx.fillText(text,x,y);
+        if(y>canvas.height+Math.random()*10000)ypos[ind]=0;else ypos[ind]=y+20;});
+    }
+    setInterval(binaryRain,60);
+  </script>
+</body>
+</html>
